@@ -102,6 +102,9 @@ ok_load_setup:
 	int	0x10
 
 
+
+
+
 ! ok, we've written the message, now
 ! we want to load the system (at 0x10000)
 
@@ -244,7 +247,7 @@ sectors:
 
 msg1:
 	.byte 13,10
-	.ascii "MIC is running..."
+	.ascii "MIC is booting ..."
 	.byte 13,10,13,10
 
 .org 508

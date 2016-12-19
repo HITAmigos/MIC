@@ -31,11 +31,9 @@ entry start
 start:
 
 !此处添加setup.s向屏幕输入的代码
-
 mov ah,#0x03
 xor bh,bh
 int 0x10        !先读光标位置，返回值在dx中
-
 mov ax,#SETUPSEG
 mov es,ax
 xor bh,bh
@@ -45,6 +43,7 @@ mov bx,#0x0007
 mov bp,#msg2
 mov ax,#0x1301
 int 0x10
+!inf_loop: !    jmp	inf_loop		! 后面不是正经代码了，得往回跳 
 
 ! ok, the read went well so we get current cursor position and save it for
 ! posterity.
@@ -195,8 +194,7 @@ print_hd:
   call print_bx
   
 !死循环
-death:
-     jmp death 
+death:jmp death 
   
 ! now we want to move to protected mode ...
 
@@ -341,8 +339,8 @@ gdt_48:
 
 msg2:
     .byte 13,10
-	.ascii "Now we are in SETUP"
-	.byte 13,10,13,10
+    .ascii "Now we are in SETUP"
+    .byte 13,10,13,10
 	 
 msg3:
     .ascii "MIC Cursor Position:"

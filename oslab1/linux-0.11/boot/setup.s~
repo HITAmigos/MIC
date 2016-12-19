@@ -31,11 +31,9 @@ entry start
 start:
 
 !此处添加setup.s向屏幕输入的代码
-
 mov ah,#0x03
 xor bh,bh
 int 0x10        !先读光标位置，返回值在dx中
-
 mov ax,#SETUPSEG
 mov es,ax
 xor bh,bh
@@ -45,6 +43,7 @@ mov bx,#0x0007
 mov bp,#msg2
 mov ax,#0x1301
 int 0x10
+!inf_loop: !    jmp	inf_loop		! 后面不是正经代码了，得往回跳 
 
 ! ok, the read went well so we get current cursor position and save it for
 ! posterity.
@@ -118,10 +117,84 @@ no_disk1:
 	rep
 	stosb
 is_disk1:
-
+	     
+!以16进制方式打印机器参数
+!先打印光标位置
+print_cur:
+  mov ah,#0x03
+  xor bh,bh
+  int 0x10        !先读光标位置，返回值在dx中
+  mov ax,#SETUPSEG
+  mov es,ax
+  mov cx,#20
+  mov bx,#0x0007
+  mov bp,#msg3
+  mov ax,#0x1301
+  int 0x10
+  
+  xor di,di
+  mov ax,#INITSEG
+  mov ds,ax
+  mov bx,(di)
+  call print_bx
+  
+!打印扩展内存数
+print_mem:
+  mov ah,#0x03
+  xor bh,bh
+  int 0x10        !先读光标位置，返回值在dx中
+  mov cx,#22
+  mov bx,#0x0007
+  mov bp,#msg4
+  mov ax,#0x1301
+  int 0x10
+  
+  mov di,#0x02
+  mov bx,(di)
+  call print_bx
+  
+!打印硬盘参数
+print_hd:
+  mov ah,#0x03
+  xor bh,bh
+  int 0x10        !先读光标位置，返回值在dx中
+  mov cx,#9
+  mov bx,#0x0007
+  mov bp,#msg5
+  mov ax,#0x1301
+  int 0x10 
+  mov di,#0x80
+  mov bx,(di)
+  call print_bx
+  
+  mov ah,#0x03
+  xor bh,bh
+  int 0x10        !先读光标位置，返回值在dx中
+  mov cx,#10
+  mov bx,#0x0007
+  mov bp,#msg6
+  mov ax,#0x1301
+  int 0x10 
+  mov di,#0x82
+  mov bx,(di)
+  xor bh,bh
+  call print_bx
+  
+  mov ah,#0x03
+  xor bh,bh
+  int 0x10        !先读光标位置，返回值在dx中
+  mov cx,#12
+  mov bx,#0x0007
+  mov bp,#msg7
+  mov ax,#0x1301
+  int 0x10 
+  mov di,#0x8e
+  mov bx,(di)
+  xor bh,bh
+  call print_bx
+  
 !死循环
-death:
-     jmp death 
+death:jmp death 
   
 ! now we want to move to protected mode ...
 
