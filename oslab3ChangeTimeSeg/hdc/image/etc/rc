@@ -1,0 +1,3 @@
+/etc/update &
+echo "/dev/fd1  /" > /etc/mtab
+echo " Ok. "

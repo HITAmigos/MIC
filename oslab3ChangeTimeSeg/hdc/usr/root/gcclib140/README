@@ -1,0 +1,29 @@
+
+This is gcc 1.40 suits for Linux kernel 0.11 - 0.95
+
+Installtion hints
+-----------------
+
+This suit contains include.taz, local.taz and this README file.
+You must download the bootimage and rootimage and install them first.
+
+The include.taz contains all the include files for using with gcc 1.40.
+The local.taz contains all the gcc tools & libs stored in two sepearted
+directories:
+/usr/local/lib
+/usr/local/bin
+
+You should copy the linux/ asm/ sys/ subdirectories into the include
+directory from the corresponding kernel source.
+
+Installation
+------------
+Goto the /usr directory. Untar the include.taz to the directory /usr/include.
+Untar the local.taz to the directory /usr/local. That's it!
+
+Example:
+--------
+cd /usr
+tar zxvf include.taz
+tar zxvf local.taz
+
